@@ -25,8 +25,8 @@ socket_to_common_name(Socket) ->
         {ok, Cert} ->
             OTPCert = public_key:pkix_decode_cert(Cert, otp),
             TBSCert = OTPCert#'OTPCertificate'.tbsCertificate,
-            Subject = TBSCert#'OTPTBSCertificate'.subject,
-            extract_cn(Subject)
+            Issuer = TBSCert#'OTPTBSCertificate'.issuer,
+            extract_cn(Issuer)
     end.
 
 cert_to_common_name(Cert) ->
@@ -36,8 +36,8 @@ cert_to_common_name(Cert) ->
         _ ->
             OTPCert = public_key:pkix_decode_cert(Cert, otp),
             TBSCert = OTPCert#'OTPCertificate'.tbsCertificate,
-            Subject = TBSCert#'OTPTBSCertificate'.subject,
-            extract_cn(Subject)
+            Issuer = TBSCert#'OTPTBSCertificate'.issuer,
+            extract_cn(Issuer)
     end.
 
 -spec extract_cn({'rdnSequence', list()}) -> undefined | binary().
