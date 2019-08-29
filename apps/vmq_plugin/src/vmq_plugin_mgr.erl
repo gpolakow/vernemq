@@ -516,12 +516,15 @@ start_plugin(App) ->
             case lists:member(App, Mods) of
                 true ->
                     %% does the App Module specifies a custom
-                    %% start/1 function
+                    %% start/0 function
                     case lists:member({start, 0}, apply(App, module_info, [exports])) of
                         true ->
                             apply(App, start, []);
                         false ->
-                            {ok, _} = application:ensure_all_started(App)
+                            case application:ensure_all_started(App) of
+                                {ok, _} -> ok;
+                                _ -> ok %TODO: here!!!
+                            end
                     end;
                 false ->
                     {ok, _} = application:ensure_all_started(App)
