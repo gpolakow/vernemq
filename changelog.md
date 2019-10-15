@@ -1,9 +1,32 @@
 # Changelog
 
+- Fix bug where websocket MQTT clients that didn't provide a
+  `sec-websocket-protocol` header to cause a crash to be logged. This case is
+  now handled and the connection is terminated gracefully (#1317).
+- Fix bug which caused clients MQTT bridges using protocol versions (131 and
+  132) to be unable to connect (#1306).
+- Upgrade the `hackney` so VerneMQ is compatible with a TLS change in Erlang/OTP
+  22.1.
+- Fix bug preventing MQTT 5 publish in/out counts from being shown on the HTTP
+  status page.
+- Fix lager issue on Raspberry Pi preventing VerneMQ from starting (#1305).
+- Upgrade `epgsql` dependency to version 4.3.0 to get better error messages
+  (#1336).
+
+## VerneMQ 1.9.2
+
 - Fix bug causing idle websocket connections to be closed after 60 seconds
   (#1292).
 - Fix MQTT 5.0 bug causing LWT not being sent when client disconnected with
   Disconnect with Will Message (0x04) (#1291).
+- Ensure MQTT 5.0 subscription identifers are added to messages delivered via
+  shared subscriptions (#1294).
+- Fix protocol version check bug which would allow MQTT 5.0 clients to connect
+  even if the MTT 5.0 protocol was not specified for the listener. This happened
+  for clients which connected with an empty client-id.
+- Fix bug in `vmq_diversity` and `vmq_webhooks` where the plugin hooks would be
+  registered out of order, even though the plugins themselves would be started
+  in the correct order (#1295).
 
 ## VerneMQ 1.9.1
 
